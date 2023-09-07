@@ -84,9 +84,9 @@ bool SriLinkDevBoard ::GET_IP()
   String response;
   uint8_t answer = SEND_AT_CMD_RAW("AT+CGCONTRDP\r\n",2000,&response);
 
-  if (response =="ERROR")
+  //if (response =="ERROR")
   //response = +CGCONTRDP: 1,5,"nbiot","10.106.221.48.255.255.255.0"
-  _NetStat.IP = 
+  //_NetStat.IP = 
   // uint8_t answer = SENDATCMD("AT+CGCONTRDP?\r\n", 2000, "OK", "ERROR");
   Serial.println(response);
   if (answer == 1)
@@ -133,15 +133,15 @@ bool SriLinkDevBoard ::MQTT_SETUP(Broker *broker, String server, String port)
   // }
 }
 
-bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String Topic)
+bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String username)
 {
-  String atCommand = "AT+CMQNEW=" + Topic + ",12000,1024\r\n";
+  String atCommand = "AT+CMQCON="+string(broker.mqttId)+"3"+ username + ",600,0,0\r\n";
   char charArray[atCommand.length()];
   atCommand.toCharArray(charArray, atCommand.length());
   uint8_t answer = SENDATCMD(charArray, 4000, "OK", "ERROR");
   if (answer == 1)
   {
-    Serial.println("success");
+    //Serial.println("success");
     return true;
   }
   else if (answer == 2)

@@ -41,7 +41,7 @@ class SriLinkDevBoard{
         bool IS_ATTACH();
         bool GET_IP();
         bool MQTT_SETUP(Broker *broker, String server,String port);
-        bool MQTT_CONNECT(Broker *broker, String Topic);
+        bool MQTT_CONNECT(Broker *broker, String username);
         uint8_t MQTT_OUTPUT_FORMAT(bool hex);
         uint8_t MQTT_PUB(Broker *broker, String topic, String msg, uint16_t msg_len, uint8_t qos, bool retained, bool dup, bool stream_hex);
         uint8_t MQTTSUB(Broker *broker, String topic, uint8_t qos);
