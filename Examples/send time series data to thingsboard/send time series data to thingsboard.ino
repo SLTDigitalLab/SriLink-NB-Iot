@@ -29,7 +29,7 @@ void setup() {
     Serial.println("IP Error");
   }
   bool connected=false;
-  if(devboard.MQTT_SETUP(TB_Broker, "mqtt.thingsboard.cloud","1883"))
+  if(devboard.MQTT_SETUP(TB_Broker, "mqtt.thingsboard.cloud","1883")
   {
     delay(200);
     if(devboard.MQTT_CONNECT(TB_Broker, "mn123")
