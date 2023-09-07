@@ -1,3 +1,8 @@
+/*
+Author - Pramitha Muthukudaarachchi, navindu Madanayaka
+Copyrights - Sri Lanka Telecom PLC
+*/
+
 #ifndef SriLinkDevBoard_h
 #define SriLinkDevBoard_h
 
