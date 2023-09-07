@@ -25,7 +25,7 @@ struct NetStat{
   String oper_short;
   String oper_num;
   String AcT;
-}
+};
 
 #define PWR_PIN 12
 #define RST_PIN 4
