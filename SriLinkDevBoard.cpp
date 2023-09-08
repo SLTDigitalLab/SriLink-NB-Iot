@@ -135,9 +135,9 @@ bool SriLinkDevBoard ::MQTT_SETUP(Broker *broker, String server, String port)
   // }
 }
 
-bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String username)
+bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String clientid, String Username, String password)
 {
-  String atCommand = "AT+CMQCON="+String(broker->mqttId)+",3,"+ username + ",600,0,0\r\n";
+  String atCommand = "AT+CMQCON="+String(broker->mqttId)+",3,\""+ clientid + "\",600,0,0,\""+Username+"\",\""+password+"\"\r\n";
   char charArray[atCommand.length()];
   atCommand.toCharArray(charArray, atCommand.length());
   Serial.println(atCommand);
@@ -154,6 +154,14 @@ bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String username)
     return false;
   }
  
+}
+
+bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String clientid){
+  return MQTT_CONNECT(broker, clientid, "", "");
+}
+
+bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String clientid, String Username){
+  return MQTT_CONNECT(broker, clientid, Username, "");
 }
 
 uint8_t SriLinkDevBoard::MQTT_OUTPUT_FORMAT(bool Ishex)

@@ -32,10 +32,10 @@ void setup() {
     Serial.println("IP Error");
   }
   delay(100);
-  if(devboard.MQTT_SETUP(&TB_Broker, "test.mosquitto.org","1883"))
+  if(devboard.MQTT_SETUP(&TB_Broker, "mqtt.thingsboard.cloud","1883"))
   {
     delay(200);
-    if(devboard.MQTT_CONNECT(&TB_Broker, "H8JNyfdOs5Ljee5YkJwl"))
+    if(devboard.MQTT_CONNECT(&TB_Broker, "iiot-dev-0001","pramitha1","pramitha1"))
     {
         Serial.println("MQTT Connect successful");
         connected = true;
@@ -54,7 +54,7 @@ void loop() {
     String data = "{'Temperature':" + String(120) + ",'Vibration':" + String(0227) + "}";
     Serial.println("String data");
     Serial.println(data);    
-    uint8_t val = devboard.MQTT_PUB(&TB_Broker, "pramitha/hello", data, data.length(), 0, false, false, false);
+    uint8_t val = devboard.MQTT_PUB(&TB_Broker, "v1/devices/me/telemetry", data, data.length(), 0, false, false, false);
 
     Serial.println("msg send - ");
     Serial.print(val);
