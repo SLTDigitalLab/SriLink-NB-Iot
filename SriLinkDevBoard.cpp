@@ -109,7 +109,9 @@ bool SriLinkDevBoard ::MQTT_SETUP(Broker *broker, String server, String port)
   char charArray[atCommand.length()];
   atCommand.toCharArray(charArray, atCommand.length());
   String response;
-  bool ok = SEND_AT_CMD_RAW(charArray, 4000, &response);
+  bool ok = SEND_AT_CMD_RAW(charArray, 30000, &response);
+  Serial.println("Setup response");
+  Serial.println(response);
   if (ok)
   {
     broker->mqttId = uint8_t(response.substring(8).toInt());
@@ -135,23 +137,23 @@ bool SriLinkDevBoard ::MQTT_SETUP(Broker *broker, String server, String port)
 
 bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String username)
 {
-  String atCommand = "AT+CMQCON="+string(broker.mqttId)+"3"+ username + ",600,0,0\r\n";
+  String atCommand = "AT+CMQCON="+String(broker->mqttId)+",3,"+ username + ",600,0,0\r\n";
   char charArray[atCommand.length()];
   atCommand.toCharArray(charArray, atCommand.length());
+  Serial.println(atCommand);
   uint8_t answer = SENDATCMD(charArray, 4000, "OK", "ERROR");
-  if (answer == 1)
+  //String response;
+  //bool answer = SEND_AT_CMD_RAW(charArray, 30000, &response);
+  //Serial.println(response);
+  if (answer==1)
   {
-    //Serial.println("success");
     return true;
-  }
-  else if (answer == 2)
-  {
-    return false;
   }
   else
   {
     return false;
   }
+ 
 }
 
 uint8_t SriLinkDevBoard::MQTT_OUTPUT_FORMAT(bool Ishex)
@@ -196,9 +198,13 @@ uint8_t SriLinkDevBoard::MQTT_PUB(Broker *broker, String topic, String msg, uint
   if (stream_hex && !(msg_len % 2))
     return 0xe2; /* when stream mode is set to hex, msg_len must be odd */
 
-  String atCommand = "AT+CMQPUB=" + String(broker->mqttId) + "," + topic + "," + qos + "," + retained ? '1' : '0' + "," + dup ? '1'
-                                                                                                                              : '0' + "," + String(msg_len) + "," + msg + "\r\n";
+  String _ret = "0";//retained ? '1':'0';
+  String _dup = "0";//dup ? '1':'0';
+
+  String atCommand = "AT+CMQPUB=" + String(broker->mqttId) + ",\"" + topic + "\"," + qos + "," + _ret + "," + _dup + "," + String(msg_len) + ",\"" + msg + "\"\r\n";
   char charArray[atCommand.length()];
+  Serial.println("pub msg");
+  Serial.println(atCommand);
   atCommand.toCharArray(charArray, atCommand.length());
   uint8_t answer = SENDATCMD(charArray, 4000, "OK", "ERROR");
   return answer == 1 ? 0x01 : answer;

@@ -1,12 +1,15 @@
 #include "SriLinkDevBoard.h"
+#include <String>
 
 SriLinkDevBoard devboard;
 
 Broker TB_Broker;
+bool connected;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  connected=false;
   Serial.println("Start...");
 
   if(devboard.Init(115200)){
@@ -20,7 +23,7 @@ void setup() {
   do{
     Serial.print(".");
     delay(5);
-  }while((devboard.IS_ATTACH()==false) && ((millis()-starttime)<5000));
+  }while((devboard.IS_ATTACH()==false) && ((millis()-starttime)<60000));
   Serial.println(" ");
   Serial.println("connection succesful");
 
@@ -28,31 +31,33 @@ void setup() {
   {
     Serial.println("IP Error");
   }
-  bool connected=false;
-  if(devboard.MQTT_SETUP(TB_Broker, "mqtt.thingsboard.cloud","1883")
+  delay(100);
+  if(devboard.MQTT_SETUP(&TB_Broker, "test.mosquitto.org","1883"))
   {
     delay(200);
-    if(devboard.MQTT_CONNECT(TB_Broker, "mn123")
+    if(devboard.MQTT_CONNECT(&TB_Broker, "H8JNyfdOs5Ljee5YkJwl"))
     {
         Serial.println("MQTT Connect successful");
         connected = true;
+
+    }
+    else
+    {
+      Serial.println("MQTT Connect fail");
     }
   }
-
-  
-
-
-
 
 }
 
 void loop() {
   if(connected){
-    String data = "{"Temperature":" + string(120) + ", "Vibration":" + string(0227) + "}";
-    uint8_t val = MQTT_PUB(TB_Broker, "v1/devices/me/telemetry", data, data.length(), 0, false, false, true);
+    String data = "{'Temperature':" + String(120) + ",'Vibration':" + String(0227) + "}";
+    Serial.println("String data");
+    Serial.println(data);    
+    uint8_t val = devboard.MQTT_PUB(&TB_Broker, "pramitha/hello", data, data.length(), 0, false, false, false);
 
-    serial.println("msg send - ");
-    serial.print(val);
+    Serial.println("msg send - ");
+    Serial.print(val);
   }
   delay(3000);
   // put your main code here, to run repeatedly:
