@@ -47,10 +47,11 @@ void setup() {
     }
   }
 
+
 }
 
 void loop() {
-  if(connected){
+   if(connected){
     String data = "{'Temperature':" + String(120) + ",'Vibration':" + String(0227) + "}";
     Serial.println("String data");
     Serial.println(data);    
