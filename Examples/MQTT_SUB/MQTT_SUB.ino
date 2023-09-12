@@ -32,10 +32,10 @@ void setup() {
     Serial.println("IP Error");
   }
   delay(100);
-  if(devboard.MQTT_SETUP(&TB_Broker, "mqtt.thingsboard.cloud","1883"))
+  if(devboard.MQTT_SETUP(&TB_Broker, "test.mosquitto.org","1883"))
   {
     delay(200);
-    if(devboard.MQTT_CONNECT(&TB_Broker, "iiot-dev-0001","pramitha1","pramitha1"))
+    if(devboard.MQTT_CONNECT(&TB_Broker, "iiot-dev-0001"))
     {
         Serial.println("MQTT Connect successful");
         connected = true;
@@ -49,7 +49,7 @@ void setup() {
 
   if(connected)
   {
-    uint8_t answer = devboard.MQTTSUB(&TB_Broker,"v1/devices/me/rx", 0);
+    uint8_t answer = devboard.MQTTSUB(&TB_Broker,"iiot/dev/#", 0);
     if (answer=1){
       Serial.println("subscribe successfull");
     }
@@ -62,7 +62,7 @@ void setup() {
 
 void loop() {
   if(Serial2.available()){
-    Serial.write(Serial.read());
+    Serial.write(Serial2.read());
   }
 
 
@@ -75,7 +75,7 @@ void loop() {
     Serial.println("msg send - ");
     Serial.print(val);
   }*/
-  delay(3000);
+  //delay(3000);
   // put your main code here, to run repeatedly:
 
 }
