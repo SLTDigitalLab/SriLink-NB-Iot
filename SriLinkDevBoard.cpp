@@ -224,7 +224,7 @@ uint8_t SriLinkDevBoard::MQTTSUB(Broker *broker, String topic, uint8_t qos)
   if (qos < 0 || qos > 2)
     return 0xe0; /* QoS must be 0, 1, 2 */
 
-  String atCommand = "AT+CMQSUB=" + String(broker->mqttId) + "," + topic + "," + qos + "\r\n";
+  String atCommand = "AT+CMQSUB=" + String(broker->mqttId) + ",\"" + topic + "\"," + qos + "\r\n";
   char charArray[atCommand.length()];
   atCommand.toCharArray(charArray, atCommand.length());
   uint8_t answer = SENDATCMD(charArray, 4000, "OK", "ERROR");
