@@ -38,7 +38,7 @@ bool SriLinkDevBoard::SET_APN(String APNNAME)
   uint8_t answer = SENDATCMD("AT+CFUN=0", 2000, "OK", "ERROR");
   if (answer == 1)
   {
-    String atCommand = "AT*MCGDEFCONT=\"IP\"," + APNNAME + "\r\n";
+    String atCommand = "AT*MCGDEFCONT=\"IP\",\"" + APNNAME + "\"\r\n";
     char charArray[atCommand.length()];
     atCommand.toCharArray(charArray, atCommand.length());
     answer = SENDATCMD(charArray, 4000, "OK", "ERROR");
