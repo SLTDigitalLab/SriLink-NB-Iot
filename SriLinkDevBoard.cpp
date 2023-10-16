@@ -109,7 +109,7 @@ bool SriLinkDevBoard ::MQTT_SETUP(Broker *broker, String server, String port)
   char charArray[atCommand.length()];
   atCommand.toCharArray(charArray, atCommand.length());
   String response;
-  bool ok = SEND_AT_CMD_RAW(charArray, 30000, &response);
+  bool ok = SEND_AT_CMD_RAW(charArray, 60000, &response);
   Serial.println("Setup response");
   Serial.println(response);
   if (ok)
@@ -141,7 +141,7 @@ bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String clientid, String Usern
   char charArray[atCommand.length()];
   atCommand.toCharArray(charArray, atCommand.length());
   Serial.println(atCommand);
-  uint8_t answer = SENDATCMD(charArray, 4000, "OK", "ERROR");
+  uint8_t answer = SENDATCMD(charArray, 60000, "OK", "ERROR");
   //String response;
   //bool answer = SEND_AT_CMD_RAW(charArray, 30000, &response);
   //Serial.println(response);
