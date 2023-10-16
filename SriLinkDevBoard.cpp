@@ -379,3 +379,16 @@ bool SriLinkDevBoard::AT_TEST()
     return false;
   }
 }
+
+
+bool SriLinkDevBoard::PowerDown(){
+  uint8_t answer = SENDATCMD("AT+CPOWD=1", 2000, "OK", "ERROR");
+  if (answer == 1)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
