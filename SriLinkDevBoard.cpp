@@ -164,7 +164,7 @@ bool SriLinkDevBoard::MQTT_CONNECT(Broker *broker, String clientid, String Usern
   return MQTT_CONNECT(broker, clientid, Username, "");
 }
 
-bool MQTT_DISCONNECT(Broker *broker){
+bool SriLinkDevBoard::MQTT_DISCONNECT(Broker *broker){
   String atCommand = "AT+CMQDISCON="+String(broker->mqttId);
   char charArray[atCommand.length()];
   atCommand.toCharArray(charArray, atCommand.length());
