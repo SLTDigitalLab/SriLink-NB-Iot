@@ -46,6 +46,7 @@ class SriLinkDevBoard{
         bool MQTT_CONNECT(Broker *broker, String clientid, String Username, String password);
         uint8_t MQTT_OUTPUT_FORMAT(bool hex);
         uint8_t MQTT_PUB(Broker *broker, String topic, String msg, uint16_t msg_len, uint8_t qos, bool retained, bool dup, bool stream_hex);
+        bool MQTT_DISCONNECT(Broker *broker);
         uint8_t MQTTSUB(Broker *broker, String topic, uint8_t qos);
         uint8_t MQTTUNSUB(Broker *broker, String topic);
         bool PowerDown();
